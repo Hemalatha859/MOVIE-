@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            color: #2d2d2d;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+            animation: drift 25s ease-in-out infinite;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-out;
+            letter-spacing: 4px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .date {
+            font-size: 1.4rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #fff;
+            font-weight: 300;
+            letter-spacing: 1px;
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .message {
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 30px auto;
+            line-height: 1.8;
+            color: #4a4a4a;
+            animation: fadeIn 1.4s ease-out;
+        }
+
+        .mystery-section {
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .mystery-label {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .mystery-box {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            padding: 50px 30px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .mystery-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .mystery-box::before {
+            content: '🎬';
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .mystery-text {
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: #4a4a4a;
+        }
+
+        .movie-reveal {
+            display: none;
+            margin-top: 30px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .movie-reveal.show {
+            display: block;
+        }
+
+        .movie-poster {
+            max-width: 350px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            margin: 20px auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-poster:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .where-section {
+            margin: 60px auto;
+            text-align: center;
+        }
+
+        .where-label {
+            font-size: 1.6rem;
+            margin-bottom: 25px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .platform-image {
+            max-width: 200px;
+            width: 100%;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.2));
+        }
+
+        .platform-image:hover {
+            transform: scale(1.15) rotate(5deg);
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 50px;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #4a4a4a;
+        }
+
+        #currentTime {
+            font-size: 1.1rem;
+            margin-top: 50px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            color: #4a4a4a;
+            font-weight: 300;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 25px;
+            color: rgba(255, 255, 255, 0.5);
+            animation: float 18s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
+            }
+            .date {
+                font-size: 1.2rem;
+            }
+            .message {
+                font-size: 1.3rem;
+            }
+            .mystery-label, .where-label {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <h1 class="title">MOVIE DATE?</h1>
+        <div class="date">Friday - 23 Jan 2026</div>
+        
+        <div class="message">Movie date ki vasthava...Horror Movie chuddamm!!!!</div>
+        
+        <div class="mystery-section">
+            <div class="mystery-label">Which Movie? 🤔</div>
+            <div class="mystery-box" id="mysteryBox">
+                <div class="mystery-text">TAP TO REVEAL</div>
+            </div>
+            <div class="movie-reveal" id="movieReveal">
+                <!-- Add your movie poster image here -->
+                <img src="Image/Kumari.jpg" alt="Movie Poster" class="movie-poster">
+            </div>
+        </div>
+
+        <div class="where-section">
+            <div class="where-label">Where to watch? 📍</div>
+            <!-- Add your platform image here (Netflix/Amazon Prime etc) -->
+            <img src="Image/Netmirror.png" alt="Streaming Platform" class="platform-image">
+        </div>
+
+        <div class="message">Chinni uttharam mee kosam</div>
+        
+        <div class="signature">itlu mee Hemu 💜</div>
+        
+        <div id="currentTime"></div>
+    </div>
+
+    <script>
+        // Display current date and time
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            };
+            const timeString = now.toLocaleDateString('en-US', options);
+            document.getElementById('currentTime').textContent = `${timeString}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // Create floating hearts animation
+        function createHearts() {
+            const heartsContainer = document.createElement('div');
+            heartsContainer.className = 'hearts';
+            document.body.appendChild(heartsContainer);
+
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 8 + 15) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heartsContainer.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 25000);
+            }, 3000);
+        }
+
+        createHearts();
+
+        // Mystery box reveal
+        document.getElementById('mysteryBox').addEventListener('click', function() {
+            document.getElementById('movieReveal').classList.add('show');
+            this.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
